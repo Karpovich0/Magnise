@@ -10,6 +10,9 @@ module.exports = {
         publicPath: '/public/',
         filename: "[name].js"
     },
+    devServer: {
+        historyApiFallback: true,
+    },
     resolve: {
         extensions: ['.ts', '.js']
     },
