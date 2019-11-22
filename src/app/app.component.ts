@@ -1,4 +1,4 @@
-import {ElementRef, Component } from '@angular/core';
+import { ViewChild, ElementRef, Component } from '@angular/core';
      
 class Comment{
     comment:string;   
@@ -17,12 +17,13 @@ class Comment{
                 <hr noshade="noshade" />
         </div>
         <div class="formGroup">
+        
             <h2>Leave a Replay</h2>
         
-            <textarea id="textArea" class="textArea" rows="5" [(ngModel)]="comment" placeholder="Your Comment"></textarea>
+            <textarea id="textArea" #textArea class="textArea" rows="5" [(ngModel)]="comment" placeholder="Your Comment"></textarea>
             <br/>
             
-            <button (click)="addComment(0,comment)">Comment</button>
+            <button (click)="addComment(0,comment)" >Comment</button>
             <br/>
             <hr noshade="nosahde" />
             <h3>Comments:</h3>            
@@ -45,7 +46,7 @@ class Comment{
                     <div class="replyClass">
 
                     </div>
-             </div> 
+             </div>       
               
         </div>
     </div>`
@@ -53,14 +54,13 @@ class Comment{
 export class AppComponent { 
     whatClass:string = "comment";
 
-    commentsPlusStyles:[[]];
-
-   // commentsPlusStyles[0][0].push(wahtClass);
+    @ViewChild("textArea", {static: false})
+    areaContent: ElementRef;    
          
     replyArr:string[] = [
-
+        
     ];
-    comments: string[] = 
+    comments: string[] =                // array that store all comments
     [
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         "Test1",
@@ -81,20 +81,22 @@ export class AppComponent {
 
         if(comment==null || comment.trim()=="") return;
 
-        // if(this.replyArr[comment]){
-        //     this.whatClass = "reply";
-        // }
-        // else{
-        //     this.whatClass = "comment"
-        // }
+
+        if(this.replyArr[comment]){              // when comment - css class .comment
+            this.whatClass = "reply";            // when reply to the comment - css class .reply
+        }                                        // don't work
+        else{
+            this.whatClass = "comment"
+        }
       
         this.comments.splice(place,0,comment);      
-        
-        
+
+         this.areaContent.nativeElement.textContent = ""; //don't work || should make textarea empty
+         
     }  
     crtReply(comment: string, reply:string){
         let index:number;   
-        for(let i:number = 0; i<this.comments.length; i++){ 
+        for(let i:number = 0; i<this.comments.length; i++){  //here could be arr.findIndex()? but it didn't work
             if (this.comments[i] === comment){
                 index = ++i;   
                 break;
