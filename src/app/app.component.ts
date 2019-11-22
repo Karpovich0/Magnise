@@ -52,6 +52,9 @@ class Comment{
     </div>`
 })
 export class AppComponent { 
+
+    empty:string = "↑↑reply..to↑↑.....................";
+    
     whatClass:string = "comment";
 
     @ViewChild("textArea", {static: false})
@@ -87,7 +90,7 @@ export class AppComponent {
         }                                        // don't work
         else{
             this.whatClass = "comment"
-        }
+        }               
       
         this.comments.splice(place,0,comment);      
 
@@ -103,6 +106,7 @@ export class AppComponent {
             }           
             
         } 
+        reply =this.empty + reply;
         this.replyArr.push(reply);
         this.addComment(index,reply);        
              
